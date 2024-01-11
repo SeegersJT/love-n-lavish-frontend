@@ -1,27 +1,67 @@
-import React from 'react'
-import { Form, Button } from "react-bootstrap";
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { Form, Button, Row, Col } from "react-bootstrap";
+
+import { requestAuthLogin } from '../../actions/authActions';
+import { addSystemToaster } from '../../actions/systemActions';
 
 export default function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const dispatch = useDispatch();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        dispatch(requestAuthLogin(
+            email,
+            password,
+            (message, type) => dispatch(addSystemToaster(message, type)),
+        ));
+    }
+
     return (
         <>
             <h2>Login</h2>
-            <Form>
-                {/* email */}
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" />
+            <Form onSubmit={(e) => handleSubmit(e)}>
+                <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+                    <Form.Label column sm={2}>Email address</Form.Label>
+                    <Col sm={10}>
+                        <Form.Control
+                            type="email"
+                            name="email"
+                            placeholder="Enter email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </Col>
                 </Form.Group>
 
-                {/* password */}
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password" />
+                <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+                    <Form.Label column sm={2}>Password</Form.Label>
+                    <Col sm={10}>
+                        <Form.Control
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </Col>
                 </Form.Group>
 
-                {/* submit button */}
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
+                <Form.Group as={Row} className="mb-3">
+                    <Col sm={{ span: 10, offset: 2 }}>
+                        <Button
+                            variant="primary"
+                            type="submit"
+                            onClick={(e) => handleSubmit(e)}
+                        >
+                            Submit
+                        </Button>
+                    </Col>
+                </Form.Group>
             </Form>
         </>
     )

@@ -1,11 +1,11 @@
-// rootReducer.js
-
 import { combineReducers } from 'redux';
-import dataReducer from '../reducers/authReducer'
+
+import authReducer from '../reducers/authReducer'
+import systemReducer from '../reducers/systemReducer'
 
 const rootReducer = combineReducers({
-  // Add other reducers here
-  data: dataReducer,
+  system: systemReducer,
+  auth: authReducer,
 });
 
 export default rootReducer;

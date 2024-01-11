@@ -1,55 +1,31 @@
-// sagas.js
-
-import { takeLatest, put, call } from 'redux-saga/effects';
+import { takeLatest, call } from 'redux-saga/effects';
 import axios from 'axios';
 import {
-    FETCH_DATA_REQUEST,
-    fetchDataSuccess,
-    fetchDataFailure,
-} from './actions';
+  REQUEST_AUTH_REGISTER
+} from '../actions/authActions';
+import { getAuthRegisterRequest } from '../services/api/auth.api';
 
-function* fetchDataSaga() {
+function* handleAuthRegisterRequest({email, password}) {
+  console.log('email', email)
+  console.log('password', password)
     try {
-        // Dispatch action to indicate that data fetching is in progress
-        yield put(fetchDataRequest());
+      const [endpoint, requestOptions] = getAuthRegisterRequest(email, password);
 
-        // Make API call using Axios
-        const response = yield call(axios.get, 'https://api.example.com/data');
+      console.log('endpoint', endpoint)
+      console.log('requestOptions', requestOptions)
 
-        // Dispatch action with the received data
-        yield put(fetchDataSuccess(response.data));
+      const response = yield call(axios, endpoint, requestOptions);
+
+      console.log('message', response.message);
+      console.log('email', response.email);
+      console.log('token', response.token);
     } catch (error) {
-        // Dispatch action in case of an error
-        yield put(fetchDataFailure(error));
+        // yield put(fetchDataFailure(error)); // Remove some authTokens or som som
+        console.error(`Failed to Register`) // Better errorhandling to follow.
     }
 }
 
 // Watch for FETCH_DATA_REQUEST action and run fetchDataSaga
-export function* watchFetchData() {
-    yield takeLatest(FETCH_DATA_REQUEST, fetchDataSaga);
+export function* watchForAuthRegisterRequest() {
+    yield takeLatest(REQUEST_AUTH_REGISTER, handleAuthRegisterRequest);
 }
-
-
-
-// export function* performForgotPasswordRequest({ email, ignore = false, onResponse = noOp }) {
-//     yield put({ type: actions.FORGOT_PASSWORD_LOADER, loading: true });
-//     try {
-//       // get endpoint and http request options
-//       const [endpoint, requestOptions] = api.getForgottenPasswordRequest(email);
-  
-//       // make the request, save the response.data
-//       const { data } = yield call(axios, endpoint, requestOptions);
-  
-//       yield call(onResponse, `Successfully Sent Password Reset to: ${email}`, snack.SNACK_SUCCESS);
-  
-//       // trigger a success action, sending the payload data
-//       if (!ignore) {
-//         yield put({ type: actions.FORGOT_PASSWORD_SUCCESS, payload: data });
-//       }
-//     } catch (error) {
-//       yield call(onResponse, `Failed to Send Password Reset to: ${email}`, snack.SNACK_CRITICAL);
-//       yield put({ type: actions.FORGOT_PASSWORD_FAILURE, payload: 'Something went wrong' });
-//     }
-  
-//     yield put({ type: actions.FORGOT_PASSWORD_LOADER, loading: false });
-//   }

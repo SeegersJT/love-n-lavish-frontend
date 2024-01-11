@@ -1,14 +1,21 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 import { Form, Button } from "react-bootstrap";
 
-const handleSubmit = (e) => {
-    e.preventDefault();
-}
+import { requestAuthRegister } from '../../actions/authActions';
 
 export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [register, setRegister] = useState(false);
+
+    const dispatch = useDispatch();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    
+        dispatch(requestAuthRegister(email, password));
+    }
 
     return (
         <>

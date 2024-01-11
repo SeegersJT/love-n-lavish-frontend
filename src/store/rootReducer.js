@@ -1,7 +1,7 @@
 // rootReducer.js
 
 import { combineReducers } from 'redux';
-import dataReducer from './reducers';
+import dataReducer from '../reducers/authReducer'
 
 const rootReducer = combineReducers({
   // Add other reducers here

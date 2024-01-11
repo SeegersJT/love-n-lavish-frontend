@@ -1,12 +1,11 @@
 // rootSaga.js
 
 import { all } from 'redux-saga/effects';
-import { watchFetchData } from './sagas';
+import { watchForAuthRegisterRequest } from '../sagas/authSaga';
 
 function* rootSaga() {
   yield all([
-    // Add other sagas here
-    watchFetchData(),
+    watchForAuthRegisterRequest(),
   ]);
 }
 

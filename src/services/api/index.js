@@ -1,4 +1,5 @@
-import { isNull } from '../helpers';
+import { getAuthToken } from '../auth';
+import { isNull } from '../helper';
 
 export const API_HOST = process.env.REACT_APP_API_HOST;
 export const API_PREFIX = `${API_HOST}/api`;
@@ -38,14 +39,7 @@ export const getAuthHeaders = (accessToken = null) => {
     let authToken = accessToken;
 
     if (isNull(authToken)) {
-        // eslint-disable-next-line global-require
-        const { version } = require('../../../package.json');
-
-        const storedPersistData = localStorage.getItem(`persist:${version}`);
-
-        const parsedData = JSON.parse(storedPersistData);
-
-        authToken = parsedData.auth ? JSON.parse(parsedData.auth).accessToken : null;
+        authToken = getAuthToken();
     }
 
     return ({

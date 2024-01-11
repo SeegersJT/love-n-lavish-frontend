@@ -1,17 +1,7 @@
-export const FETCH_DATA_REQUEST = 'FETCH_DATA_REQUEST';
-export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS';
-export const FETCH_DATA_FAILURE = 'FETCH_DATA_FAILURE';
+export const REQUEST_AUTH_REGISTER = 'REQUEST_AUTH_REGISTER';
 
-export const fetchDataRequest = () => ({
-    type: FETCH_DATA_REQUEST,
-});
-
-export const fetchDataSuccess = (data) => ({
-    type: FETCH_DATA_SUCCESS,
-    payload: data,
-});
-
-export const fetchDataFailure = (error) => ({
-    type: FETCH_DATA_FAILURE,
-    payload: error,
+export const requestAuthRegister = (email, password) => ({
+    type: REQUEST_AUTH_REGISTER,
+    email,
+    password
 });

@@ -4,12 +4,15 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 
 import { requestAuthRegister } from '../../actions/authActions';
 import { addSystemToaster } from '../../actions/systemActions';
+import { useNavigate } from 'react-router-dom';
 
-export default function Register() {
+function Register() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const dispatch = useDispatch();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -18,6 +21,7 @@ export default function Register() {
             email,
             password,
             (message, type) => dispatch(addSystemToaster(message, type)),
+            () => navigate('/dashboard')
         ));
     }
 
@@ -66,3 +70,5 @@ export default function Register() {
         </>
     )
 }
+
+export default Register;

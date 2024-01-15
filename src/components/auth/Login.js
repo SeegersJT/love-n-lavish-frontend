@@ -1,15 +1,19 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from "react-bootstrap";
 
 import { requestAuthLogin } from '../../actions/authActions';
 import { addSystemToaster } from '../../actions/systemActions';
 
-export default function Login() {
+function Login({ auth }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { destination } = auth;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -18,6 +22,7 @@ export default function Login() {
             email,
             password,
             (message, type) => dispatch(addSystemToaster(message, type)),
+            () => navigate(destination)
         ));
     }
 
@@ -66,3 +71,11 @@ export default function Login() {
         </>
     )
 }
+
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth,
+    };
+};
+
+export default connect(mapStateToProps)(Login);

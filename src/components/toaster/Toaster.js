@@ -14,7 +14,7 @@ function Toasters({ system }) {
     const { toasters } = system;
 
     return (
-        <ToastContainer position="top-end" className="p-3" style={{ zIndex: 1 }}>
+        <ToastContainer position="top-end" className="mt-5 p-3" style={{ zIndex: 1 }}>
             {toasters.map((toaster) => (
                 <Toast
                     key={toaster.id}
